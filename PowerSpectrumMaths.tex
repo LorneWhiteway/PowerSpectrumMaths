@@ -1,0 +1,230 @@
+% !TEX TS-program = pdflatex+MakeIndex+BibTeX
+% !TEX encoding = UTF-8 Unicode
+
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% PAGE DIMENSIONS
+\usepackage[margin=3cm]{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage[usenames,dvipsnames,table]{xcolor} % Colour cells of a table
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage[lofdepth,lotdepth]{subfig} % make it possible to include more than one captioned figure/table in a single float
+\usepackage{amsmath} % To allow multline
+\usepackage{graphicx}
+%\usepackage{subcaption}
+\usepackage{siunitx}
+%\usepackage{hyperref} % Makes references into hyperlinks (if desired); also for setting pdf properties
+\usepackage{url}
+\usepackage{tikz} % Diagrams
+\usetikzlibrary{arrows,matrix,decorations.markings,decorations.pathreplacing}
+\usepackage{ifthen} % For if-then constructions (e.g. in newcommand)
+\usepackage{textcomp}
+\usepackage{bbm} % For indicator function
+
+
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+\usepackage[nottoc,numbib]{tocbibind} % References in TOC
+
+%\usepackage{setspace} %Line spacing. See https://en.wikibooks.org/wiki/LaTeX/Text_Formatting#Line_Spacing
+%\onehalfspacing
+
+
+
+\title{Power Spectrum Maths}
+\author{Lorne Whiteway, UCL}
+\date{7 January 2019}
+
+
+\begin{document}
+\maketitle
+
+\section {Introduction}
+
+Notes concerning the calculation of the 2D power spectrum of a projected field given the 3D power spectrum of the unprojected field.
+
+\section {Preliminaries}
+
+Let $\boldsymbol{x}$ denote a vector in three-space, $x$ its corresponding length, and $\boldsymbol{\hat{x}}$ the corresponding unit length vector (i.e. point on $S^2$).
+
+We deal with random variables on 3-space or on the sphere. Let angle brackets $\langle \rangle $ denote the (ensemble) average i.e. the expectation of the corresponding random variable. All random variables are are statistically homogeneous and isotropic, so their expectation values cannot depend on position or direction.
+
+\subsection{3D spectral analysis}
+
+Conventions for Fourier representation of functions defined on 3-space:
+
+\begin{equation}
+f(\boldsymbol{k}) = (2\pi)^{-3/2} A^{-1} \int f(\boldsymbol{x}) \exp(-i \boldsymbol{k} \cdot \boldsymbol{x}) d^3x
+\end{equation}
+
+\noindent and
+\begin{equation}
+f(\boldsymbol{x}) = (2\pi)^{-3/2} A \int f(\boldsymbol{k}) \exp(i \boldsymbol{k} \cdot \boldsymbol{x}) d^3k.
+\end{equation}
+
+\noindent Here $A$ is an arbitrary constant that defines the Fourier convention being used.
+
+For a given random field $f$ consider $\langle f(\boldsymbol{k})f^{\ast}(\boldsymbol{k}')\rangle$. Because of statistical homogeneity and isotropy this will vanish unless $\boldsymbol{k} = \boldsymbol{k}'$ and in this case it will depend only on $k$. Thus we define the power spectrum $P$ via
+\begin{equation}
+P(k) = A^{2} \langle | f(\boldsymbol{k}) | ^2 \rangle
+\end{equation}
+
+
+\subsection{Spherical harmonic functions}
+
+Normalisation for the spherical harmonic functions $Y_{\ell}^m$:
+\begin{equation}
+\label{eqn:SphHarmNorm}
+\int {Y_\ell^m(\boldsymbol{\hat{n}})} {Y_{\ell'}^{m' \ast}(\boldsymbol{\hat{n}})}d^2n = \delta_{\ell \ell'} \delta_{m m'}
+\end{equation}
+
+
+
+\subsection{2D spectral analysis}
+
+Convention for representing functions defined on the sphere using spherical harmonics:
+
+\begin{equation}
+\label{eqn:SphHarmRep}
+f(\boldsymbol{\hat{n}}) = \sum_{\ell=0}^\infty \sum_{m=-\ell}^{\ell} a_{\ell m} Y_{\ell}^m(\boldsymbol{\hat{n}})
+\end{equation}
+
+\noindent where
+
+\begin{equation}
+\label{eqn:SphHarmCoeff}
+a_{\ell m} = \int f(\boldsymbol{\hat{n}}) Y_{\ell}^{m \ast}(\boldsymbol{\hat{n}}) d^2n.
+\end{equation}
+
+\noindent To establish equation(\ref{eqn:SphHarmCoeff}), multiply equation(\ref{eqn:SphHarmRep}) by $Y_{\ell'}^{m'*}(\boldsymbol{\hat{n}})$ and integrate over the sphere; then use equation(\ref{eqn:SphHarmNorm}).
+
+
+Let $f$ be a statistically isotropic field on the sphere with zero expectation everywhere and consider $\langle a_{\ell m} a^{\ast}_{\ell' m'} \rangle$. This will vanish unless $\ell = \ell'$ and $m=m'$ and in this case it will depend only on $\ell$. Thus we define the angular power spectrum $C$ via
+\begin{equation}
+C_{\ell} = \langle | a_{\ell m} | ^2 \rangle.
+\end{equation}
+
+\subsection{Plane Wave Expansion}
+
+The plane wave expansion is:
+
+\begin{equation}
+\exp(i \boldsymbol{k} \cdot \boldsymbol{x}) = \sum_{\ell=0}^\infty (2 \ell +1) i^{\ell} j_{\ell}(kx) P_{\ell}(\boldsymbol{\hat{k}} \cdot \boldsymbol{\hat{x}}).
+\end{equation}
+Here $j_{\ell}$ is a spherical Bessel function and $P_{\ell}$ is a Legendre polynomial. This expansion provides the link between spectral analysis in 3-space and spectral analysis on the sphere.
+
+\subsection{Spherical harmonic addition theorem}
+
+The spherical harmonic addition theorem states:
+
+\begin{equation}
+P_{\ell}(\boldsymbol{\hat{x}} \cdot \boldsymbol{\hat{y}}) = \frac{4 \pi}{2 \ell + 1}\sum_{m=-\ell}^{\ell} Y_{\ell m}(\boldsymbol{\hat{y}}) Y_{\ell m}^{\ast}(\boldsymbol{\hat{x}})
+\end{equation}
+
+\noindent This is a generalisation of the formula for the cosine of the sum of two angles.
+
+\section{Application to density fields}
+
+The 3D density contrast field is
+
+\begin{equation}
+\delta^{3D}(\boldsymbol{x}) = \frac{\rho(\boldsymbol{x}) - \bar{\rho}}{\bar{\rho}}
+\end{equation}
+
+\noindent where $\rho$ is the density and $\bar{\rho}$ its spatial average. This is a (homogeneous and isotropic) random field in 3 space; its expectation value is zero everywhere. What we observe is one realisation of this random field. Apply the spectral anaysis (above) to define the power spectrum $P$ of this field.
+
+Now define the projected density contrast field to be
+
+\begin{equation}
+\delta^{2D}(\boldsymbol{\hat{n}}) = \int_0^{\infty} \phi(y) \delta^{3D}(y \boldsymbol{\hat{n}}) dy
+\end{equation}
+where $y$ is comoving distance and $\phi$ is a weight function that we assume to be normalised i.e. its integral is one. (For example if $\phi$ is a top-hat then it serves to pick out a particular spherical shell for the projection). Now $\delta^{2D}$ is a isotropic random field on the sphere with expectation value zero everywhere. Apply the spectral anaysis (above) to define the power spectrum $C$ of this field. How are $P$ and $C$ related?
+
+We see
+\begin{equation}
+\begin{split}
+\delta^{2D}(\boldsymbol{\hat{n}}) &= \int_0^{\infty} \phi(y) \delta^{3D}(y \boldsymbol{\hat{n}}) dy \\
+&= (2\pi)^{-3/2} A \int_0^{\infty} \phi(y) \int \delta^{3D}(\boldsymbol{k}) \exp(i \boldsymbol{k} \cdot y\boldsymbol{\hat{n}}) d^3k dy \\
+&= (2\pi)^{-3/2} A \int_0^{\infty} \phi(y) \int \delta^{3D}(\boldsymbol{k}) \sum_{\ell=0}^\infty (2 \ell +1) i^{\ell} j_{\ell}(ky) P_{\ell}(\boldsymbol{\hat{k}} \cdot \boldsymbol{\hat{n}}) d^3k dy \\
+&= (2\pi)^{-3/2} A \int_0^{\infty} \phi(y) \int \delta^{3D}(\boldsymbol{k}) \sum_{\ell=0}^\infty (2 \ell +1) i^{\ell} j_{\ell}(ky) \frac{4 \pi}{2 \ell + 1}\sum_{m=-\ell}^{\ell} Y_{\ell m}(\boldsymbol{\hat{n}}) Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) d^3k dy \\
+&= \sum_{\ell=0}^\infty \sum_{m=-\ell}^{\ell} \left( \sqrt{2/\pi} A \int_0^{\infty} \phi(y) \int \delta^{3D}(\boldsymbol{k}) i^{\ell} j_{\ell}(ky)  Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) d^3k dy \right) Y_{\ell m}(\boldsymbol{\hat{n}}).
+\end{split}
+\end{equation}
+
+Thus
+\begin{equation}
+\begin{split}
+a_{\ell m} &= \sqrt{2/\pi} A \int_0^{\infty} \phi(y) \int \delta^{3D}(\boldsymbol{k}) i^{\ell} j_{\ell}(ky)  Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) d^3k dy \\
+&= \sqrt{2/\pi} A \int \left( \int_0^{\infty} \phi(y) j_{\ell}(ky) dy \right) \delta^{3D}(\boldsymbol{k}) i^{\ell}   Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) d^3k  \\
+&= \sqrt{2/\pi} A \int W_{\ell}(k) \delta^{3D}(\boldsymbol{k}) i^{\ell}   Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) d^3k 
+\end{split}
+\end{equation}
+where
+\begin{equation}
+W_{\ell}(k) = \int_0^{\infty} \phi(y) j_{\ell}(ky) dy.
+\end{equation}
+
+Therefore
+\begin{equation}
+\begin{split}
+C_{\ell} &= \langle | a_{\ell m} | ^2 \rangle = \langle a_{\ell m} a^{\ast}_{\ell m} \rangle \\
+&= \frac{2}{\pi} A^2 \langle \left( \int W_{\ell}(k) \delta^{3D}(\boldsymbol{k}) i^{\ell}   Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) d^3k \right) \left( \int W_{\ell}(k') \delta^{3D\ast}(\boldsymbol{k'}) (-i)^{\ell}   Y_{\ell m}(\boldsymbol{\hat{k'}}) d^3k' \right) \rangle \\
+&= \frac{2}{\pi} A^2 \int \int W_{\ell}(k) W_{\ell}(k') \langle \delta^{3D}(\boldsymbol{k}) \delta^{3D\ast}(\boldsymbol{k'}) \rangle Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) Y_{\ell m}(\boldsymbol{\hat{k'}}) d^3k d^3k' \\
+&= \frac{2}{\pi} \int \int W_{\ell}(k) W_{\ell}(k') P(k) \delta(\boldsymbol{k}-\boldsymbol{k'}) Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) Y_{\ell m}(\boldsymbol{\hat{k'}}) d^3k d^3k' \\
+&= \frac{2}{\pi} \int W_{\ell}(k)^2 P(k) | Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) | ^2 d^3k \\
+&= \frac{2}{\pi} \int k^2 W_{\ell}(k)^2 P(k) dk \int | Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) | ^2 d^2k \\
+&= \frac{2}{\pi} \int k^2 W_{\ell}(k)^2 P(k) dk. \\
+\end{split}
+\end{equation}
+
+Define the dimensionless power spectrum via:
+\begin{equation}
+\Delta^2(k) = \frac{k^3 P(k)}{2 \pi^2};
+\end{equation}
+
+then
+\begin{equation}
+C_{\ell} = 4 \pi \int W_{\ell}(k)^2 \Delta^2(k) dk/k. \\
+\end{equation}
+
+\section{Cross correlations}
+
+Assume now that we have two weight functions $\phi^i$ and $\phi^j$ and hence two window functions $W_{\ell}^i(k)$ and $W_{\ell}^j(k)$. We can then define the cross-correlation
+
+\begin{equation}
+\begin{split}
+C_{\ell}^{ij} &= \langle a_{\ell m}^i a^{j \ast}_{\ell m} \rangle \\
+&= \frac{2}{\pi} A^2 \langle \left( \int W_{\ell}^i(k) \delta^{3D}(\boldsymbol{k}) i^{\ell}   Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) d^3k \right) \left( \int W_{\ell}^j(k') \delta^{3D\ast}(\boldsymbol{k'}) (-i)^{\ell}   Y_{\ell m}(\boldsymbol{\hat{k'}}) d^3k' \right) \rangle \\
+&= \frac{2}{\pi} A^2 \int \int W_{\ell}^i(k) W_{\ell}^j(k') \langle \delta^{3D}(\boldsymbol{k}) \delta^{3D\ast}(\boldsymbol{k'}) \rangle Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) Y_{\ell m}(\boldsymbol{\hat{k'}}) d^3k d^3k' \\
+&= \frac{2}{\pi} \int \int W_{\ell}^i(k) W_{\ell}^j(k') P(k) \delta(\boldsymbol{k}-\boldsymbol{k'}) Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) Y_{\ell m}(\boldsymbol{\hat{k'}}) d^3k d^3k' \\
+&= \frac{2}{\pi} \int W_{\ell}^i(k) W_{\ell}^j(k) P(k) | Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) | ^2 d^3k \\
+&= \frac{2}{\pi} \int k^2 W_{\ell}^i(k) W_{\ell}^j(k) P(k) dk \int | Y_{\ell m}^{\ast}(\boldsymbol{\hat{k}}) | ^2 d^2k \\
+&= \frac{2}{\pi} \int k^2 W_{\ell}^i(k) W_{\ell}^j(k) P(k) dk. \\
+\end{split}
+\end{equation}
+
+This cross-correlations are therefore real, but not necessarily positive.
+
+
+
+
+
+\end{document}
+
