@@ -46,6 +46,8 @@
 %\usepackage{setspace} %Line spacing. See https://en.wikibooks.org/wiki/LaTeX/Text_Formatting#Line_Spacing
 %\onehalfspacing
 
+\newcommand{\BaseLocation}{c:/s_backup}
+
 
 
 \title{Power Spectrum Maths}
@@ -79,7 +81,7 @@ f(\boldsymbol{k}) = (2\pi)^{-3/2} A^{-1} \int f(\boldsymbol{x}) \exp(-i \boldsym
 f(\boldsymbol{x}) = (2\pi)^{-3/2} A \int f(\boldsymbol{k}) \exp(i \boldsymbol{k} \cdot \boldsymbol{x}) d^3k.
 \end{equation}
 
-\noindent Here $A$ is an arbitrary constant that defines the Fourier convention being used.
+\noindent Here $A$ is an arbitrary constant that defines the Fourier convention being used. The BOSS paper (\cite{loureiro2019cosmological}) uses $A = (2\pi)^{-3/2}$. See \cite{matarrese1997large} Appendix A for an alternative, more general parameterisation of Fourier conventions. 
 
 For a given random field $f$ consider $\langle f(\boldsymbol{k})f^{\ast}(\boldsymbol{k}')\rangle$. Because of statistical homogeneity and isotropy this will vanish unless $\boldsymbol{k} = \boldsymbol{k}'$ and in this case it will depend only on $k$. Thus we define the power spectrum $P$ via
 \begin{equation}
@@ -223,7 +225,8 @@ C_{\ell}^{ij} &= \langle a_{\ell m}^i a^{j \ast}_{\ell m} \rangle \\
 This cross-correlations are therefore real, but not necessarily positive.
 
 
-
+\bibliographystyle{Alpha}
+\bibliography{\BaseLocation/Astronomy/UCL/references}
 
 
 \end{document}
